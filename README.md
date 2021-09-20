@@ -7,3 +7,7 @@ Old version calculator, use Polish postfix. To calculate the expression `1 + 2 =
 *Update 1.1*:
 
 - Move all code to the function, to increase security. Now, variable like `currentValue` couldn't be accessed through `console`.
+
+*Update 1.2*:
+
+- Mark all stable variable (non-changed) as `const`, instead of `let`.
