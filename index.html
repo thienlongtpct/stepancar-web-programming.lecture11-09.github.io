@@ -1,38 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
     <head>
         <link rel="stylesheet" href="index.css">
         <meta charset="utf8">
+        <title>Калькулятор - Во Минь Тхиен Лонг</title>
+        <link rel="icon" href="logo.svg">
     </head>
     <body>
         <form id="calculator">
-            <p id="current-result">Текущий результат: 0</p>
-            <input id="screen" value="0" disabled>
-            <div id="buttons">
-                <button class="operator-button">No idea</button>
-                <button class="operator-button" id="sign">±</button>
-                <button id="clear">CLR</button>
-                <button id="del">DEL</button>
+            <div id="screen">
+                <label for="expression"></label>
+                <input id="expression" disabled>
+                <label for="result"></label>
+                <input id="result" value="0" disabled>
+            </div>
 
-                <button class="number">7</button>
-                <button class="number">8</button>
-                <button class="number">9</button>
+            <div id="buttons">
+                <button class="operator-button" id="open-bracket">(</button>
+                <button class="operator-button" id="close-bracket">)</button>
+                <button class="special" id="clear">CLR</button>
+                <button class="special" id="del">DEL</button>
+
+                <button>7</button>
+                <button>8</button>
+                <button>9</button>
                 <button class="operator-button" id="divide">÷</button>
 
-                <button class="number">4</button>
-                <button class="number">5</button>
-                <button class="number">6</button>
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
                 <button class="operator-button" id="multiple">×</button>
 
-                <button class="number">1</button>
-                <button class="number">2</button>
-                <button class="number">3</button>
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
                 <button class="operator-button" id="minus">-</button>
 
 
                 <button class="operator-button" id="to-decimal">.</button>
-                <button class="number">0</button>
-                <button id="equal">=</button>
+                <button>0</button>
+                <button class="special" id="equal">=</button>
                 <button class="operator-button" id="add">+</button>
             </div>
         </form>

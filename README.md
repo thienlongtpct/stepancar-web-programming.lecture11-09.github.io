@@ -11,3 +11,8 @@ Old version calculator, use Polish postfix. To calculate the expression `1 + 2 =
 *Update 1.2*:
 
 - Mark all stable variable (non-changed) as `const`, instead of `let`.
+
+
+**Version 2**
+
+New version calculator. Work as a modern calculator.

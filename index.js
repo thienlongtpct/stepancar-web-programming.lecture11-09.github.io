@@ -1,18 +1,22 @@
 //Главная фукция
 const startApp = () => {
-    let currentResult = 0;
-    let isDecimal = false;
-    const screen = document.getElementById('screen');
+    const expression = document.getElementById('expression');
+    const result = document.getElementById('result');
+    let isResultUpdated = false;
 
-    const updateFinalResult = (newResult) => {
-        currentResult = newResult;
-        screen.value = 0;
-        isDecimal = false;
-        document.getElementById('current-result').innerText = `Текущий результат: ${currentResult}`;
+    const updateResult = (newResult) => {
+        result.value = newResult;
+        isResultUpdated = true;
     }
 
-    const updateScreenValue = (newValue) => {
-        screen.value = newValue;
+    const updateExpression = (newValue) => {
+        expression.value = newValue;
+    }
+
+    const reset = () => {
+        isResultUpdated = false;
+        expression.value = '';
+        result.value = '';
     }
 
     const buttons = document.getElementsByTagName("button");
@@ -20,77 +24,45 @@ const startApp = () => {
         button.onclick = (event) => {
             event.preventDefault();
             button.style.boxShadow = '0 0 20px ' + document.defaultView.getComputedStyle(button)['background-color'];
+
+            // when the result is already updated, and a new button is clicked -> reset
+            if (isResultUpdated) reset();
+
+            // buttons which only change the expression, not the result
+            if (!button.classList.contains("special")) {
+                updateExpression(expression.value + button.innerText);
+            }
         };
         button.onmouseup = () => {
             button.style.boxShadow = 'none';
         };
     });
 
-
-    const numbers = document.getElementsByClassName("number");
-    Array.from(numbers).forEach(number => {
-        number.onmousedown = () => {
-            updateScreenValue(isDecimal ? screen.value + number.innerHTML : parseFloat(screen.value + number.innerHTML));
-        };
-    });
-
-
-    const sign = document.getElementById('sign');
-    sign.onclick = (event) => {
-        event.preventDefault();
-        updateScreenValue(-parseFloat(screen.value));
-    }
-
     const clear = document.getElementById('clear');
     clear.onclick = (event) => {
         event.preventDefault();
-        updateFinalResult(0);
+        reset();
     }
 
     const del = document.getElementById('del');
     del.onclick = (event) => {
         event.preventDefault();
-        const currentValue = screen.value;
-        if (currentValue.substr(-1) === '.') isDecimal = false;
-        updateScreenValue(parseFloat(currentValue.substr(0, currentValue.length - 1) || '0'));
-    }
-
-    const divide = document.getElementById('divide');
-    divide.onclick = (event) => {
-        event.preventDefault();
-        updateFinalResult(parseFloat(currentResult) / parseFloat(screen.value));
-    }
-
-    const multiple = document.getElementById('multiple');
-    multiple.onclick = (event) => {
-        event.preventDefault();
-        updateFinalResult(parseFloat(currentResult) * parseFloat(screen.value));
-    }
-
-    const minus = document.getElementById('minus');
-    minus.onclick = (event) => {
-        event.preventDefault();
-        updateFinalResult(parseFloat(currentResult) - parseFloat(screen.value));
-    }
-
-    const add = document.getElementById('add');
-    add.onclick = (event) => {
-        event.preventDefault();
-        updateFinalResult(parseFloat(currentResult) + parseFloat(screen.value));
-    }
-
-    const toDecimal = document.getElementById('to-decimal');
-    toDecimal.onclick = (event) => {
-        event.preventDefault();
-        if (!isDecimal) updateScreenValue(screen.value + '.');
-        else alert('Already a decimal');
-        isDecimal = true;
+        const currentValue = expression.value;
+        if (!currentValue) return;
+        updateExpression(currentValue.substr(0, currentValue.length - 1));
     }
 
     const equal = document.getElementById('equal');
     equal.onclick = (event) => {
         event.preventDefault();
-        updateFinalResult(parseFloat(screen.value));
+        try {
+            const formattedExpression = expression.value.replace('÷', '/').replace('×', '*');
+            const value = Function(`'use strict'; return (${formattedExpression})`)();
+            updateResult(value);
+        }
+        catch (exception) {
+            alert('Пожалуйста, проверьте еще раз, в вашем выражении есть несколько опечаток.');
+        }
     }
 }
 
